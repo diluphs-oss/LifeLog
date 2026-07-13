@@ -11,6 +11,7 @@ import Extras from '../../components/Extras';
 import PdfExport from '../../components/PdfExport';
 import EveningReport from '../../components/EveningReport';
 import DashboardOverview from '../../components/DashboardOverview';
+import DesktopStage from '../../components/DesktopStage';
 import { button, colors, shell } from '../../components/uiStyles';
 
 const TABS = ['Today', 'Tasks', 'Money', 'Extras'];
@@ -35,6 +36,8 @@ export default function Dashboard() {
   if (session === undefined) return null;
 
   return (
+    <>
+    <DesktopStage />
     <main style={shell}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 14, marginBottom: 18 }}>
         <div>
@@ -98,5 +101,6 @@ export default function Dashboard() {
         ))}
       </nav>
     </main>
+    </>
   );
 }
