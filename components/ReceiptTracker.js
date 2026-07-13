@@ -51,7 +51,7 @@ export default function ReceiptTracker() {
   const over = todayTotal > DAILY_LIMIT;
 
   return (
-    <div style={card}>
+    <div style={{ ...card, background: '#ffe2bf' }}>
       <div style={cardHeader}>
         <h3 style={h3}>Lunch Receipt</h3>
         <span style={{ color: over ? colors.danger : colors.success, fontSize: 13, fontWeight: 800 }}>

@@ -44,7 +44,7 @@ export default function EveningReport() {
   };
 
   return (
-    <div style={{ background: 'linear-gradient(135deg, rgba(216, 166, 74, 0.20), rgba(95, 183, 164, 0.14))', borderRadius: 8, padding: 18, marginBottom: 14, border: '1px solid rgba(216, 166, 74, 0.28)', boxShadow: 'var(--shadow)' }}>
+    <div style={{ background: '#bff7ff', borderRadius: 26, padding: 18, marginBottom: 14, border: '2px solid #111111', boxShadow: 'var(--shadow)' }}>
       <div style={cardHeader}>
         <h3 style={h3}>Send today's report?</h3>
         <span style={{ color: colors.accent, fontSize: 12, fontWeight: 800 }}>Evening</span>

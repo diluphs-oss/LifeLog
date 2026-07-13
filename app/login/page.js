@@ -38,10 +38,10 @@ export default function Login() {
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
-      <div style={{ ...card, maxWidth: 390, width: '100%', marginBottom: 0 }}>
-        <p style={{ margin: '0 0 5px', color: colors.accent, fontSize: 12, fontWeight: 800, letterSpacing: 1, textTransform: 'uppercase' }}>Private access</p>
-        <h1 style={{ fontSize: 34, lineHeight: 1, margin: 0, fontWeight: 850 }}>LifeLog</h1>
-        <p style={{ color: colors.muted, margin: '10px 0 24px', fontSize: 14 }}>Sign in with your private password and return to your personal ledger.</p>
+      <div style={{ ...card, maxWidth: 430, width: '100%', marginBottom: 0, background: '#fffaf4', padding: 26 }}>
+        <p style={{ margin: '0 0 5px', color: colors.muted, fontSize: 12, fontWeight: 900, letterSpacing: 1.4, textTransform: 'uppercase' }}>Private access</p>
+        <h1 style={{ fontSize: 58, lineHeight: 0.94, margin: 0, fontWeight: 950 }}>LifeLog</h1>
+        <p style={{ color: colors.muted, margin: '14px 0 26px', fontSize: 17, fontWeight: 750 }}>Sign in with your private password and return to your personal ledger.</p>
         <form onSubmit={handleLogin}>
           <input
             type="email"

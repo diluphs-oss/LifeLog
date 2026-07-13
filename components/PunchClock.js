@@ -41,7 +41,7 @@ export default function PunchClock({ onChange }) {
   const fmt = (t) => t ? new Date(t).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '—';
 
   return (
-    <div style={card}>
+    <div style={{ ...card, background: '#dfffcf' }}>
       <div style={cardHeader}>
         <div>
           <p style={eyebrow}>Clock</p>
@@ -54,11 +54,11 @@ export default function PunchClock({ onChange }) {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 10, marginBottom: 14 }}>
         <div style={metric}>
           <div style={{ fontSize: 12, color: colors.muted, marginBottom: 4 }}>Punch in</div>
-          <div style={{ fontSize: 24, fontWeight: 800 }}>{fmt(entry?.punch_in)}</div>
+          <div style={{ fontSize: 28, fontWeight: 950 }}>{fmt(entry?.punch_in)}</div>
         </div>
         <div style={metric}>
           <div style={{ fontSize: 12, color: colors.muted, marginBottom: 4 }}>Punch out</div>
-          <div style={{ fontSize: 24, fontWeight: 800 }}>{fmt(entry?.punch_out)}</div>
+          <div style={{ fontSize: 28, fontWeight: 950 }}>{fmt(entry?.punch_out)}</div>
         </div>
       </div>
       {!entry?.punch_in && (

@@ -27,7 +27,7 @@ export default function ExpenseTracker() {
   const expense = entries.filter(e => e.type === 'expense').reduce((s, e) => s + Number(e.amount), 0);
 
   return (
-    <div style={card}>
+    <div style={{ ...card, background: '#ffd3ef' }}>
       <div style={cardHeader}>
         <h3 style={h3}>Expenses & Salary</h3>
         <span style={{ color: income - expense >= 0 ? colors.success : colors.danger, fontSize: 13, fontWeight: 800 }}>

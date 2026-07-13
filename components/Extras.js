@@ -26,7 +26,7 @@ function SimpleList({ table, title, fields, renderItem }) {
   };
 
   return (
-    <div style={card}>
+    <div style={{ ...card, background: '#ffffff' }}>
       <div style={cardHeader}>
         <h3 style={h3}>{title}</h3>
         <span style={{ color: colors.muted, fontSize: 13 }}>{items.length}</span>

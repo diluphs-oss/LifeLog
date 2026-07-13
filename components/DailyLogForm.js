@@ -56,7 +56,7 @@ export default function DailyLogForm() {
   );
 
   return (
-    <div style={card}>
+    <div style={{ ...card, background: '#ffffff' }}>
       <div style={cardHeader}>
         <h3 style={h3}>Daily Log</h3>
         {saved && <span style={{ color: colors.success, fontSize: 13, fontWeight: 750 }}>Saved</span>}

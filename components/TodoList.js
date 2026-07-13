@@ -31,7 +31,7 @@ export default function TodoList() {
   };
 
   return (
-    <div style={card}>
+    <div style={{ ...card, background: '#e6d6ff' }}>
       <div style={cardHeader}>
         <h3 style={h3}>To-Do & Reminders</h3>
         <span style={{ color: colors.muted, fontSize: 13 }}>{todos.filter((t) => !t.done).length} open</span>

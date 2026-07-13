@@ -37,13 +37,13 @@ export default function Dashboard() {
     <main style={shell}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 14, marginBottom: 18 }}>
         <div>
-          <p style={{ margin: '0 0 5px', color: colors.accent, fontSize: 12, fontWeight: 800, letterSpacing: 1, textTransform: 'uppercase' }}>
-            Private daily ledger
+          <p style={{ margin: '0 0 5px', color: colors.muted, fontSize: 12, fontWeight: 900, letterSpacing: 1.4, textTransform: 'uppercase' }}>
+            Welcome back
           </p>
-          <h1 style={{ fontSize: 34, lineHeight: 1, margin: 0, letterSpacing: 0, fontWeight: 850 }}>LifeLog</h1>
-          <p style={{ margin: '8px 0 0', color: colors.muted, fontSize: 14 }}>Today, money, memories, and the small proofs of a life in motion.</p>
+          <h1 style={{ fontSize: 42, lineHeight: 1, margin: 0, letterSpacing: 0, fontWeight: 950 }}>LifeLog</h1>
+          <p style={{ margin: '8px 0 0', color: colors.muted, fontSize: 15, fontWeight: 700 }}>How is your day going?</p>
         </div>
-        <button onClick={() => supabase.auth.signOut()} style={{ ...button('quiet'), minHeight: 38, padding: '8px 12px', flex: '0 0 auto' }}>
+        <button onClick={() => supabase.auth.signOut()} style={{ ...button('quiet'), minHeight: 38, padding: '8px 12px', flex: '0 0 auto', boxShadow: 'none' }}>
           Sign out
         </button>
       </div>
@@ -57,14 +57,14 @@ export default function Dashboard() {
             onClick={() => setTab(t)}
             style={{
               padding: '10px 8px',
-              borderRadius: 8,
-              border: tab === t ? '1px solid rgba(216, 166, 74, 0.55)' : '1px solid var(--line)',
+              borderRadius: 999,
+              border: '2px solid #111111',
               cursor: 'pointer',
               whiteSpace: 'nowrap',
-              background: tab === t ? 'rgba(216, 166, 74, 0.18)' : 'rgba(20, 24, 18, 0.82)',
-              color: tab === t ? colors.text : colors.muted,
-              fontWeight: 750,
-              backdropFilter: 'blur(16px)',
+              background: tab === t ? colors.accent : '#ffffff',
+              color: colors.text,
+              fontWeight: 900,
+              boxShadow: tab === t ? '0 4px 0 rgba(17, 17, 17, 0.16)' : 'none',
             }}
           >
             {t}
