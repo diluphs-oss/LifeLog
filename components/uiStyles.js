@@ -17,9 +17,9 @@ export const colors = {
 };
 
 export const shell = {
-  width: 'min(100%, 760px)',
+  width: 'min(100%, 430px)',
   margin: '0 auto',
-  padding: '24px 16px 96px',
+  padding: '24px 14px 98px',
 };
 
 export const card = {
