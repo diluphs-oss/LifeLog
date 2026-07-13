@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
+import { button, card, cardHeader, colors, h3, inputStyle, metric } from './uiStyles';
 
 const todayStr = () => new Date().toISOString().slice(0, 10);
 const DAILY_LIMIT = 12;
@@ -51,30 +52,35 @@ export default function ReceiptTracker() {
 
   return (
     <div style={card}>
-      <h3 style={{ margin: '0 0 12px' }}>Lunch Receipt</h3>
-      <div style={{ display: 'flex', gap: 8, marginBottom: 12, flexWrap: 'wrap' }}>
+      <div style={cardHeader}>
+        <h3 style={h3}>Lunch Receipt</h3>
+        <span style={{ color: over ? colors.danger : colors.success, fontSize: 13, fontWeight: 800 }}>
+          {over ? 'Over limit' : 'On track'}
+        </span>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(112px, 1fr))', gap: 8, marginBottom: 12, alignItems: 'center' }}>
         <input
           type="number"
           step="0.01"
           placeholder="Amount €"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          style={{ ...inputStyle, width: 110 }}
+          style={inputStyle}
         />
-        <input type="file" accept="image/*" capture="environment" onChange={(e) => setFile(e.target.files[0])} style={{ color: '#eee' }} />
-        <button onClick={upload} disabled={uploading} style={btn}>{uploading ? 'Saving...' : 'Add'}</button>
+        <input type="file" accept="image/*" capture="environment" onChange={(e) => setFile(e.target.files[0])} style={{ ...inputStyle, color: colors.muted, padding: '9px 10px' }} />
+        <button onClick={upload} disabled={uploading} style={{ ...button('primary'), opacity: uploading ? 0.66 : 1 }}>{uploading ? 'Saving...' : 'Add'}</button>
       </div>
 
-      <div style={{ fontSize: 14, color: over ? '#f66' : '#8f8' }}>
-        Today: €{todayTotal.toFixed(2)} / €{DAILY_LIMIT} {over && '⚠️ over limit'}
-      </div>
-      <div style={{ fontSize: 13, color: '#999', marginTop: 4 }}>
-        This month: €{monthTotal.toFixed(2)}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 10 }}>
+        <div style={metric}>
+          <div style={{ fontSize: 12, color: colors.muted }}>Today</div>
+          <div style={{ color: over ? colors.danger : colors.success, fontSize: 22, fontWeight: 850 }}>€{todayTotal.toFixed(2)} <span style={{ color: colors.faint, fontSize: 13 }}>/ €{DAILY_LIMIT}</span></div>
+        </div>
+        <div style={metric}>
+          <div style={{ fontSize: 12, color: colors.muted }}>This month</div>
+          <div style={{ fontSize: 22, fontWeight: 850 }}>€{monthTotal.toFixed(2)}</div>
+        </div>
       </div>
     </div>
   );
 }
-
-const card = { background: '#1a1a2e', borderRadius: 12, padding: 20, marginBottom: 16 };
-const inputStyle = { padding: 10, borderRadius: 8, border: '1px solid #333', background: '#0f0f1a', color: '#eee' };
-const btn = { background: '#4a86e8', border: 'none', color: '#fff', padding: '10px 20px', borderRadius: 8, fontWeight: 600, cursor: 'pointer' };

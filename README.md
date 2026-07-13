@@ -8,8 +8,9 @@ Your all-in-one daily tracker: punch in/out, tasks, ideas, lunch receipts (with 
 1. Go to https://supabase.com → New project (free tier)
 2. Once created: **SQL Editor** → New query → paste everything from `supabase/schema.sql` → Run
 3. **Storage** → New bucket → name it `receipts` → make it **public**
-4. **Authentication** → Providers → make sure **Email** is enabled (magic link, no password needed)
-5. **Project Settings > API** → copy your `Project URL` and `anon public` key
+4. **Authentication** → Providers → make sure **Email** is enabled
+5. **Authentication** → Email Templates → Magic Link → include the 6-digit token in the email body, for example: `Your LifeLog code is {{ .Token }}`
+6. **Project Settings > API** → copy your `Project URL` and `anon public` key
 
 ### 2. Local setup — ~5 min
 ```bash
@@ -18,7 +19,7 @@ cp .env.local.example .env.local
 # paste your Supabase URL + anon key into .env.local
 npm run dev
 ```
-Open http://localhost:3000 — sign in with your email (you'll get a magic link).
+Open http://localhost:3000 — sign in with your email, then enter the 6-digit code from the email.
 
 ### 3. Email sending (optional, for the evening report) — ~5 min
 1. Turn on 2-Factor Authentication on your Google account (if not already)
@@ -45,6 +46,6 @@ Open http://localhost:3000 — sign in with your email (you'll get a magic link)
 - The "documents" tab currently just stores links — easiest is to upload files to your Google Drive and paste the share link in
 
 ## Notes
-- Data is private to your Supabase project — only you (via magic link) can access it, enforced by Row Level Security.
+- Data is private to your Supabase project — only you (via email OTP) can access it, enforced by Row Level Security.
 - Receipt photos go to Supabase Storage (free tier: 1GB). If you fill that up over time, move older photos to Google Drive and just keep the amount in the app.
 - The evening report banner appears automatically after 5 PM and lets you send the day's PDF via email, Telegram, or both — or dismiss it.

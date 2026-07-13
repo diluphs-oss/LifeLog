@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
+import { button, card, cardHeader, colors, h3, inputStyle, listRow, metric } from './uiStyles';
 
 const todayStr = () => new Date().toISOString().slice(0, 10);
 
@@ -27,29 +28,37 @@ export default function ExpenseTracker() {
 
   return (
     <div style={card}>
-      <h3 style={{ margin: '0 0 12px' }}>Expenses & Salary</h3>
-      <div style={{ display: 'flex', gap: 8, marginBottom: 12, flexWrap: 'wrap' }}>
+      <div style={cardHeader}>
+        <h3 style={h3}>Expenses & Salary</h3>
+        <span style={{ color: income - expense >= 0 ? colors.success : colors.danger, fontSize: 13, fontWeight: 800 }}>
+          Net €{(income - expense).toFixed(2)}
+        </span>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(118px, 1fr))', gap: 8, marginBottom: 12 }}>
         <select value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value })} style={inputStyle}>
           <option value="expense">Expense</option>
           <option value="income">Income</option>
         </select>
-        <input placeholder="Category" value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} style={{ ...inputStyle, width: 110 }} />
-        <input type="number" step="0.01" placeholder="Amount €" value={form.amount} onChange={(e) => setForm({ ...form, amount: e.target.value })} style={{ ...inputStyle, width: 100 }} />
-        <button onClick={add} style={btn}>Add</button>
+        <input placeholder="Category" value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} style={inputStyle} />
+        <input type="number" step="0.01" placeholder="Amount €" value={form.amount} onChange={(e) => setForm({ ...form, amount: e.target.value })} style={inputStyle} />
+        <button onClick={add} style={button('primary')}>Add</button>
       </div>
-      <div style={{ fontSize: 14, marginBottom: 12 }}>
-        This month — Income: <span style={{ color: '#8f8' }}>€{income.toFixed(2)}</span> · Expenses: <span style={{ color: '#f88' }}>€{expense.toFixed(2)}</span> · Net: €{(income - expense).toFixed(2)}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 10, marginBottom: 10 }}>
+        <div style={metric}>
+          <div style={{ fontSize: 12, color: colors.muted }}>Income</div>
+          <div style={{ color: colors.success, fontSize: 22, fontWeight: 850 }}>€{income.toFixed(2)}</div>
+        </div>
+        <div style={metric}>
+          <div style={{ fontSize: 12, color: colors.muted }}>Expenses</div>
+          <div style={{ color: colors.danger, fontSize: 22, fontWeight: 850 }}>€{expense.toFixed(2)}</div>
+        </div>
       </div>
       {entries.slice(0, 8).map((e) => (
-        <div key={e.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: '1px solid #222', fontSize: 13 }}>
-          <span>{e.entry_date} · {e.category || e.type}</span>
-          <span style={{ color: e.type === 'income' ? '#8f8' : '#f88' }}>{e.type === 'income' ? '+' : '-'}€{Number(e.amount).toFixed(2)}</span>
+        <div key={e.id} style={listRow}>
+          <span style={{ color: colors.muted }}>{e.entry_date} · <span style={{ color: colors.text }}>{e.category || e.type}</span></span>
+          <span style={{ color: e.type === 'income' ? colors.success : colors.danger, fontWeight: 800 }}>{e.type === 'income' ? '+' : '-'}€{Number(e.amount).toFixed(2)}</span>
         </div>
       ))}
     </div>
   );
 }
-
-const card = { background: '#1a1a2e', borderRadius: 12, padding: 20, marginBottom: 16 };
-const inputStyle = { padding: 10, borderRadius: 8, border: '1px solid #333', background: '#0f0f1a', color: '#eee' };
-const btn = { background: '#4a86e8', border: 'none', color: '#fff', padding: '10px 16px', borderRadius: 8, fontWeight: 600, cursor: 'pointer' };

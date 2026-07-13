@@ -1,5 +1,6 @@
 'use client';
 import { supabase } from '../lib/supabaseClient';
+import { button } from './uiStyles';
 
 const todayStr = () => new Date().toISOString().slice(0, 10);
 
@@ -57,10 +58,8 @@ export default function PdfExport() {
   };
 
   return (
-    <button onClick={generate} style={btn}>
+    <button onClick={generate} style={{ ...button('teal'), width: '100%', marginBottom: 14 }}>
       Download today's PDF
     </button>
   );
 }
-
-const btn = { background: '#2ecc71', border: 'none', color: '#0a0a0a', padding: '12px 20px', borderRadius: 8, fontWeight: 700, cursor: 'pointer', width: '100%' };

@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
+import { button, card, cardHeader, colors, h3, inputStyle, listRow } from './uiStyles';
 
 export default function TodoList() {
   const [todos, setTodos] = useState([]);
@@ -31,7 +32,10 @@ export default function TodoList() {
 
   return (
     <div style={card}>
-      <h3 style={{ margin: '0 0 12px' }}>To-Do & Reminders</h3>
+      <div style={cardHeader}>
+        <h3 style={h3}>To-Do & Reminders</h3>
+        <span style={{ color: colors.muted, fontSize: 13 }}>{todos.filter((t) => !t.done).length} open</span>
+      </div>
       <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
         <input
           value={title}
@@ -40,19 +44,15 @@ export default function TodoList() {
           placeholder="New task..."
           style={{ ...inputStyle, flex: 1 }}
         />
-        <button onClick={add} style={btn}>Add</button>
+        <button onClick={add} style={button('primary')}>Add</button>
       </div>
       {todos.map((t) => (
-        <div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 0', borderBottom: '1px solid #222' }}>
-          <input type="checkbox" checked={t.done} onChange={() => toggle(t.id, t.done)} />
-          <span style={{ flex: 1, textDecoration: t.done ? 'line-through' : 'none', color: t.done ? '#666' : '#eee' }}>{t.title}</span>
-          <button onClick={() => remove(t.id)} style={{ background: 'none', border: 'none', color: '#f66', cursor: 'pointer' }}>✕</button>
+        <div key={t.id} style={listRow}>
+          <input type="checkbox" checked={t.done} onChange={() => toggle(t.id, t.done)} style={{ accentColor: colors.accent }} />
+          <span style={{ flex: 1, textDecoration: t.done ? 'line-through' : 'none', color: t.done ? colors.faint : colors.text }}>{t.title}</span>
+          <button onClick={() => remove(t.id)} style={{ ...button('quiet'), minHeight: 32, width: 32, padding: 0, color: colors.danger }} aria-label={`Delete ${t.title}`}>×</button>
         </div>
       ))}
     </div>
   );
 }
-
-const card = { background: '#1a1a2e', borderRadius: 12, padding: 20, marginBottom: 16 };
-const inputStyle = { padding: 10, borderRadius: 8, border: '1px solid #333', background: '#0f0f1a', color: '#eee' };
-const btn = { background: '#4a86e8', border: 'none', color: '#fff', padding: '10px 16px', borderRadius: 8, fontWeight: 600, cursor: 'pointer' };

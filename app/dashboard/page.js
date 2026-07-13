@@ -10,6 +10,7 @@ import ExpenseTracker from '../../components/ExpenseTracker';
 import Extras from '../../components/Extras';
 import PdfExport from '../../components/PdfExport';
 import EveningReport from '../../components/EveningReport';
+import { button, colors, shell } from '../../components/uiStyles';
 
 const TABS = ['Today', 'Tasks', 'Money', 'Extras'];
 
@@ -33,24 +34,37 @@ export default function Dashboard() {
   if (session === undefined) return null;
 
   return (
-    <div style={{ maxWidth: 640, margin: '0 auto', padding: 16, paddingBottom: 80 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-        <h1 style={{ fontSize: 22, margin: 0 }}>LifeLog</h1>
-        <button onClick={() => supabase.auth.signOut()} style={{ background: 'none', border: '1px solid #333', color: '#999', borderRadius: 8, padding: '6px 12px', cursor: 'pointer' }}>
+    <main style={shell}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 14, marginBottom: 18 }}>
+        <div>
+          <p style={{ margin: '0 0 5px', color: colors.accent, fontSize: 12, fontWeight: 800, letterSpacing: 1, textTransform: 'uppercase' }}>
+            Private daily ledger
+          </p>
+          <h1 style={{ fontSize: 34, lineHeight: 1, margin: 0, letterSpacing: 0, fontWeight: 850 }}>LifeLog</h1>
+          <p style={{ margin: '8px 0 0', color: colors.muted, fontSize: 14 }}>Today, money, memories, and the small proofs of a life in motion.</p>
+        </div>
+        <button onClick={() => supabase.auth.signOut()} style={{ ...button('quiet'), minHeight: 38, padding: '8px 12px', flex: '0 0 auto' }}>
           Sign out
         </button>
       </div>
 
       <EveningReport />
 
-      <div style={{ display: 'flex', gap: 8, marginBottom: 16, overflowX: 'auto' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 8, marginBottom: 14, position: 'sticky', top: 10, zIndex: 3 }}>
         {TABS.map((t) => (
           <button
             key={t}
             onClick={() => setTab(t)}
             style={{
-              padding: '8px 16px', borderRadius: 20, border: 'none', cursor: 'pointer', whiteSpace: 'nowrap',
-              background: tab === t ? '#4a86e8' : '#1a1a2e', color: '#fff', fontWeight: 600,
+              padding: '10px 8px',
+              borderRadius: 8,
+              border: tab === t ? '1px solid rgba(216, 166, 74, 0.55)' : '1px solid var(--line)',
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+              background: tab === t ? 'rgba(216, 166, 74, 0.18)' : 'rgba(20, 24, 18, 0.82)',
+              color: tab === t ? colors.text : colors.muted,
+              fontWeight: 750,
+              backdropFilter: 'blur(16px)',
             }}
           >
             {t}
@@ -69,6 +83,6 @@ export default function Dashboard() {
       {tab === 'Tasks' && <TodoList />}
       {tab === 'Money' && <ExpenseTracker />}
       {tab === 'Extras' && <Extras />}
-    </div>
+    </main>
   );
 }

@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
+import { button, card, cardHeader, colors, h3, inputStyle, label as labelStyle } from './uiStyles';
 
 const todayStr = () => new Date().toISOString().slice(0, 10);
 
@@ -34,7 +35,7 @@ export default function DailyLogForm() {
 
   const field = (key, label, placeholder, textarea = true) => (
     <div style={{ marginBottom: 12 }}>
-      <label style={{ fontSize: 12, color: '#999', display: 'block', marginBottom: 4 }}>{label}</label>
+      <label style={labelStyle}>{label}</label>
       {textarea ? (
         <textarea
           value={form[key]}
@@ -56,18 +57,16 @@ export default function DailyLogForm() {
 
   return (
     <div style={card}>
-      <h3 style={{ margin: '0 0 12px' }}>Daily Log</h3>
+      <div style={cardHeader}>
+        <h3 style={h3}>Daily Log</h3>
+        {saved && <span style={{ color: colors.success, fontSize: 13, fontWeight: 750 }}>Saved</span>}
+      </div>
       {field('woke_up_at', 'Woke up at', '', false)}
       {field('tasks', 'Tasks done today', 'One per line...')}
       {field('ideas', 'New ideas', 'One per line...')}
       {field('meals', 'Meals / what I ate', 'Breakfast, lunch, dinner...')}
       {field('notes', 'Notes', 'Anything else...')}
-      <button onClick={save} style={btn}>Save</button>
-      {saved && <span style={{ marginLeft: 12, color: '#8f8' }}>Saved ✓</span>}
+      <button onClick={save} style={{ ...button('primary'), width: '100%' }}>Save daily log</button>
     </div>
   );
 }
-
-const card = { background: '#1a1a2e', borderRadius: 12, padding: 20, marginBottom: 16 };
-const inputStyle = { width: '100%', padding: 10, borderRadius: 8, border: '1px solid #333', background: '#0f0f1a', color: '#eee', boxSizing: 'border-box', fontFamily: 'inherit' };
-const btn = { background: '#4a86e8', border: 'none', color: '#fff', padding: '10px 20px', borderRadius: 8, fontWeight: 600, cursor: 'pointer' };

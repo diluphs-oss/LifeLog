@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
+import { button, card, cardHeader, colors, h3, inputStyle, listRow } from './uiStyles';
 
 function SimpleList({ table, title, fields, renderItem }) {
   const [items, setItems] = useState([]);
@@ -26,7 +27,10 @@ function SimpleList({ table, title, fields, renderItem }) {
 
   return (
     <div style={card}>
-      <h3 style={{ margin: '0 0 12px' }}>{title}</h3>
+      <div style={cardHeader}>
+        <h3 style={h3}>{title}</h3>
+        <span style={{ color: colors.muted, fontSize: 13 }}>{items.length}</span>
+      </div>
       <div style={{ display: 'flex', gap: 8, marginBottom: 12, flexWrap: 'wrap' }}>
         {fields.map((f) => (
           <input
@@ -37,12 +41,12 @@ function SimpleList({ table, title, fields, renderItem }) {
             style={{ ...inputStyle, width: f.width || 140 }}
           />
         ))}
-        <button onClick={add} style={btn}>Add</button>
+        <button onClick={add} style={button('primary')}>Add</button>
       </div>
       {items.map((item) => (
-        <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 0', borderBottom: '1px solid #222', fontSize: 13 }}>
-          <span>{renderItem(item)}</span>
-          <button onClick={() => remove(item.id)} style={{ background: 'none', border: 'none', color: '#f66', cursor: 'pointer' }}>✕</button>
+        <div key={item.id} style={listRow}>
+          <span style={{ flex: 1 }}>{renderItem(item)}</span>
+          <button onClick={() => remove(item.id)} style={{ ...button('quiet'), minHeight: 32, width: 32, padding: 0, color: colors.danger }} aria-label="Delete item">×</button>
         </div>
       ))}
     </div>
@@ -62,7 +66,7 @@ export default function Extras() {
         ]}
         renderItem={(i) => (
           <>
-            {i.title} {i.price ? `— €${i.price}` : ''} {i.url && <a href={i.url} target="_blank" rel="noreferrer" style={{ color: '#4a86e8' }}> (link)</a>}
+            {i.title} {i.price ? `— €${i.price}` : ''} {i.url && <a href={i.url} target="_blank" rel="noreferrer"> (link)</a>}
           </>
         )}
       />
@@ -83,7 +87,7 @@ export default function Extras() {
           { key: 'url', label: 'URL', width: 220 },
         ]}
         renderItem={(i) => (
-          <a href={i.url} target="_blank" rel="noreferrer" style={{ color: '#4a86e8' }}>{i.title}</a>
+          <a href={i.url} target="_blank" rel="noreferrer">{i.title}</a>
         )}
       />
       <SimpleList
@@ -95,13 +99,9 @@ export default function Extras() {
           { key: 'category', label: 'Category', width: 100 },
         ]}
         renderItem={(i) => (
-          <>{i.title} {i.file_url && <a href={i.file_url} target="_blank" rel="noreferrer" style={{ color: '#4a86e8' }}> (open)</a>}</>
+          <>{i.title} {i.file_url && <a href={i.file_url} target="_blank" rel="noreferrer"> (open)</a>}</>
         )}
       />
     </>
   );
 }
-
-const card = { background: '#1a1a2e', borderRadius: 12, padding: 20, marginBottom: 16 };
-const inputStyle = { padding: 10, borderRadius: 8, border: '1px solid #333', background: '#0f0f1a', color: '#eee' };
-const btn = { background: '#4a86e8', border: 'none', color: '#fff', padding: '10px 16px', borderRadius: 8, fontWeight: 600, cursor: 'pointer' };

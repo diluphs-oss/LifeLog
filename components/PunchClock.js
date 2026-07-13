@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
+import { button, card, cardHeader, colors, eyebrow, h3, metric } from './uiStyles';
 
 const todayStr = () => new Date().toISOString().slice(0, 10);
 
@@ -41,29 +42,31 @@ export default function PunchClock({ onChange }) {
 
   return (
     <div style={card}>
-      <h3 style={{ margin: '0 0 12px' }}>Today</h3>
-      <div style={{ display: 'flex', gap: 24, marginBottom: 16 }}>
+      <div style={cardHeader}>
         <div>
-          <div style={{ fontSize: 12, color: '#999' }}>Punch in</div>
-          <div style={{ fontSize: 20 }}>{fmt(entry?.punch_in)}</div>
+          <p style={eyebrow}>Clock</p>
+          <h3 style={h3}>Today</h3>
         </div>
-        <div>
-          <div style={{ fontSize: 12, color: '#999' }}>Punch out</div>
-          <div style={{ fontSize: 20 }}>{fmt(entry?.punch_out)}</div>
+        {entry?.punch_in && entry?.punch_out && (
+          <span style={{ color: colors.success, fontSize: 13, fontWeight: 750 }}>Day logged</span>
+        )}
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 10, marginBottom: 14 }}>
+        <div style={metric}>
+          <div style={{ fontSize: 12, color: colors.muted, marginBottom: 4 }}>Punch in</div>
+          <div style={{ fontSize: 24, fontWeight: 800 }}>{fmt(entry?.punch_in)}</div>
+        </div>
+        <div style={metric}>
+          <div style={{ fontSize: 12, color: colors.muted, marginBottom: 4 }}>Punch out</div>
+          <div style={{ fontSize: 24, fontWeight: 800 }}>{fmt(entry?.punch_out)}</div>
         </div>
       </div>
       {!entry?.punch_in && (
-        <button onClick={punchIn} style={btn('#4a86e8')}>Punch In</button>
+        <button onClick={punchIn} style={button('teal')}>Punch in</button>
       )}
       {entry?.punch_in && !entry?.punch_out && (
-        <button onClick={punchOut} style={btn('#e8734a')}>Punch Out</button>
-      )}
-      {entry?.punch_in && entry?.punch_out && (
-        <span style={{ color: '#8f8' }}>Day logged ✓</span>
+        <button onClick={punchOut} style={button('danger')}>Punch out</button>
       )}
     </div>
   );
 }
-
-const card = { background: '#1a1a2e', borderRadius: 12, padding: 20, marginBottom: 16 };
-const btn = (bg) => ({ background: bg, border: 'none', color: '#fff', padding: '10px 20px', borderRadius: 8, fontWeight: 600, cursor: 'pointer' });

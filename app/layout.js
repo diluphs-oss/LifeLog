@@ -1,3 +1,5 @@
+import './globals.css';
+
 export const metadata = {
   title: 'LifeLog',
   description: "Dilu's daily life tracker",
@@ -5,7 +7,7 @@ export const metadata = {
 };
 
 export const viewport = {
-  themeColor: '#1a1a2e',
+  themeColor: '#10120f',
 };
 
 export default function RootLayout({ children }) {
@@ -16,9 +18,7 @@ export default function RootLayout({ children }) {
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       </head>
-      <body style={{ margin: 0, fontFamily: 'system-ui, -apple-system, sans-serif', background: '#0f0f1a', color: '#eee' }}>
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

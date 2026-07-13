@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
+import { button, cardHeader, colors, h3 } from './uiStyles';
 
 const todayStr = () => new Date().toISOString().slice(0, 10);
 const isEvening = () => new Date().getHours() >= 17;
@@ -43,18 +44,19 @@ export default function EveningReport() {
   };
 
   return (
-    <div style={{ background: '#26264a', borderRadius: 12, padding: 20, marginBottom: 16, border: '1px solid #4a4a8a' }}>
-      <h3 style={{ margin: '0 0 8px' }}>Send today's report?</h3>
-      <p style={{ fontSize: 13, color: '#bbb', margin: '0 0 12px' }}>It's evening — want me to send today's PDF log?</p>
-      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-        <button onClick={() => buildAndSend(true, false)} style={btn}>Email it</button>
-        <button onClick={() => buildAndSend(false, true)} style={btn}>Telegram it</button>
-        <button onClick={() => buildAndSend(true, true)} style={btn}>Both</button>
-        <button onClick={() => setDismissed(true)} style={{ ...btn, background: '#333' }}>Not now</button>
+    <div style={{ background: 'linear-gradient(135deg, rgba(216, 166, 74, 0.20), rgba(95, 183, 164, 0.14))', borderRadius: 8, padding: 18, marginBottom: 14, border: '1px solid rgba(216, 166, 74, 0.28)', boxShadow: 'var(--shadow)' }}>
+      <div style={cardHeader}>
+        <h3 style={h3}>Send today's report?</h3>
+        <span style={{ color: colors.accent, fontSize: 12, fontWeight: 800 }}>Evening</span>
       </div>
-      {status && <p style={{ fontSize: 12, color: '#8f8', marginTop: 10 }}>{status}</p>}
+      <p style={{ fontSize: 13, color: colors.muted, margin: '0 0 12px' }}>Wrap the day into a PDF and send it where you will actually see it.</p>
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+        <button onClick={() => buildAndSend(true, false)} style={button('primary')}>Email it</button>
+        <button onClick={() => buildAndSend(false, true)} style={button('teal')}>Telegram it</button>
+        <button onClick={() => buildAndSend(true, true)} style={button('primary')}>Both</button>
+        <button onClick={() => setDismissed(true)} style={button('quiet')}>Not now</button>
+      </div>
+      {status && <p style={{ fontSize: 12, color: colors.success, margin: '10px 0 0' }}>{status}</p>}
     </div>
   );
 }
-
-const btn = { background: '#4a86e8', border: 'none', color: '#fff', padding: '10px 16px', borderRadius: 8, fontWeight: 600, cursor: 'pointer' };
