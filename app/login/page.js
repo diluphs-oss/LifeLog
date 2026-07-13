@@ -4,9 +4,19 @@ import { supabase } from '../../lib/supabaseClient';
 import { button, card, colors, inputStyle } from '../../components/uiStyles';
 
 const RESEND_SECONDS = 60;
-const authErrorMessage = (message) => {
-  if (message?.toLowerCase().includes('rate limit')) {
+const authErrorMessage = (error) => {
+  const raw = typeof error === 'string' ? error : error?.message || error?.error_description || '';
+  const message = typeof raw === 'string' ? raw : '';
+  const lower = message.toLowerCase();
+
+  if (lower.includes('rate limit')) {
     return 'Too many codes were requested. Wait a bit, then try again. If a recent email arrived, use that code instead of requesting another.';
+  }
+  if (lower.includes('smtp') || lower.includes('email')) {
+    return 'Email could not be sent. Check the SMTP host, port, username, and app password in Supabase.';
+  }
+  if (!message || message === '{}') {
+    return 'Email could not be sent. Your SMTP settings may be incomplete or rejected by the provider.';
   }
   return message;
 };
@@ -36,7 +46,7 @@ export default function Login() {
       },
     });
     setLoading(false);
-    if (error) setError(authErrorMessage(error.message));
+    if (error) setError(authErrorMessage(error));
     else {
       setSent(true);
       setResendIn(RESEND_SECONDS);
@@ -53,7 +63,7 @@ export default function Login() {
       type: 'email',
     });
     setLoading(false);
-    if (error) setError(authErrorMessage(error.message));
+    if (error) setError(authErrorMessage(error));
     else window.location.href = '/dashboard';
   };
 
