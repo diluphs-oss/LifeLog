@@ -1,14 +1,29 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import { button, card, colors, inputStyle } from '../../components/uiStyles';
+
+const RESEND_SECONDS = 60;
+const authErrorMessage = (message) => {
+  if (message?.toLowerCase().includes('rate limit')) {
+    return 'Too many codes were requested. Wait a bit, then try again. If a recent email arrived, use that code instead of requesting another.';
+  }
+  return message;
+};
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [resendIn, setResendIn] = useState(0);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (!resendIn) return undefined;
+    const timer = setTimeout(() => setResendIn((seconds) => Math.max(0, seconds - 1)), 1000);
+    return () => clearTimeout(timer);
+  }, [resendIn]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -21,8 +36,11 @@ export default function Login() {
       },
     });
     setLoading(false);
-    if (error) setError(error.message);
-    else setSent(true);
+    if (error) setError(authErrorMessage(error.message));
+    else {
+      setSent(true);
+      setResendIn(RESEND_SECONDS);
+    }
   };
 
   const handleVerify = async (e) => {
@@ -35,7 +53,7 @@ export default function Login() {
       type: 'email',
     });
     setLoading(false);
-    if (error) setError(error.message);
+    if (error) setError(authErrorMessage(error.message));
     else window.location.href = '/dashboard';
   };
 
@@ -61,8 +79,8 @@ export default function Login() {
             <button type="submit" disabled={loading || code.length !== 6} style={{ ...button('primary'), width: '100%', opacity: loading || code.length !== 6 ? 0.62 : 1 }}>
               {loading ? 'Checking...' : 'Verify code'}
             </button>
-            <button type="button" onClick={handleLogin} disabled={loading} style={{ ...button('quiet'), width: '100%', marginTop: 10 }}>
-              Resend code
+            <button type="button" onClick={handleLogin} disabled={loading || resendIn > 0} style={{ ...button('quiet'), width: '100%', marginTop: 10, opacity: loading || resendIn > 0 ? 0.62 : 1 }}>
+              {resendIn > 0 ? `Resend in ${resendIn}s` : 'Resend code'}
             </button>
             {error && <p style={{ color: colors.danger, margin: '10px 0 0', fontSize: 13 }}>{error}</p>}
           </form>
